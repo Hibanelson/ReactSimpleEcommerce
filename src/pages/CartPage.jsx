@@ -1,9 +1,10 @@
-import { useCart } from '../state/CartContext.jsx'
+import { useSelector } from 'react-redux'
+import { selectCartItems } from '../state/cartSlice.js'
 import { CartItem } from '../components/CartItem.jsx'
 import { CartSummary } from '../components/CartSummary.jsx'
 
 export function CartPage() {
-  const { items } = useCart()
+  const items = useSelector(selectCartItems)
 
   return (
     <section className="cart-page">

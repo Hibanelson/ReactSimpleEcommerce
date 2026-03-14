@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { useCart } from '../state/CartContext.jsx'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../state/cartSlice.js'
 
 const PRODUCT_URL = 'https://dummyjson.com/products'
 
 export function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { addToCart } = useCart()
+  const dispatch = useDispatch()
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -44,12 +45,14 @@ export function ProductDetail() {
   const handleAddToCart = () => {
     if (!product) return
     for (let i = 0; i < quantity; i += 1) {
-      addToCart({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        thumbnail: product.thumbnail,
-      })
+      dispatch(
+        addToCart({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          thumbnail: product.thumbnail,
+        }),
+      )
     }
     navigate('/cart')
   }

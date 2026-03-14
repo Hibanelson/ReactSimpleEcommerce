@@ -1,7 +1,8 @@
-import { useCart } from '../state/CartContext.jsx'
+import { useDispatch } from 'react-redux'
+import { changeQuantity, removeFromCart } from '../state/cartSlice.js'
 
 export function CartItem({ item }) {
-  const { removeFromCart, updateQuantity } = useCart()
+  const dispatch = useDispatch()
 
   const lineTotal = item.price * item.quantity
 
@@ -22,7 +23,7 @@ export function CartItem({ item }) {
         <button
           type="button"
           className="qty-button"
-          onClick={() => updateQuantity(item.id, -1)}
+          onClick={() => dispatch(changeQuantity({ id: item.id, delta: -1 }))}
         >
           −
         </button>
@@ -30,7 +31,7 @@ export function CartItem({ item }) {
         <button
           type="button"
           className="qty-button"
-          onClick={() => updateQuantity(item.id, 1)}
+          onClick={() => dispatch(changeQuantity({ id: item.id, delta: 1 }))}
         >
           +
         </button>
@@ -44,7 +45,7 @@ export function CartItem({ item }) {
           type="button"
           className="icon-button delete-button"
           aria-label="Remove from cart"
-          onClick={() => removeFromCart(item.id)}
+          onClick={() => dispatch(removeFromCart(item.id))}
         >
           🗑
         </button>

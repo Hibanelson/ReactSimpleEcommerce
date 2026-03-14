@@ -1,8 +1,9 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useCart } from '../state/CartContext.jsx'
+import { useSelector } from 'react-redux'
+import { selectCartSummary } from '../state/cartSlice.js'
 
 export function Layout() {
-  const { summary } = useCart()
+  const summary = useSelector(selectCartSummary)
   const location = useLocation()
   const navigate = useNavigate()
 

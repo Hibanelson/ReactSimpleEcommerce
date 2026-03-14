@@ -1,7 +1,8 @@
-import { useCart } from '../state/CartContext.jsx'
+import { useSelector } from 'react-redux'
+import { selectCartSummary } from '../state/cartSlice.js'
 
 export function CartSummary() {
-  const { summary } = useCart()
+  const summary = useSelector(selectCartSummary)
 
   return (
     <aside className="cart-summary">
