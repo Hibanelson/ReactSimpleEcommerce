@@ -1,6 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { ProductGrid } from '../components/ProductGrid.jsx'
+import {
+  Alert,
+  Box,
+  CircularProgress,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import InputAdornment from '@mui/material/InputAdornment'
 
 const PRODUCTS_URL = 'https://dummyjson.com/products'
 
@@ -61,34 +71,45 @@ export function ProductDashboard() {
   }
 
   return (
-    <section className="product-dashboard">
-      <header className="page-header">
-        <div>
-          <h1>Product Dashboard</h1>
-          <p className="page-subtitle">
+    <Box>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        justifyContent="space-between"
+        spacing={2}
+        sx={{ mb: 3 }}
+      >
+        <Box>
+          <Typography variant="h5" fontWeight={700}>
+            Product Dashboard
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
             Browse products and add them to your cart.
-          </p>
-        </div>
-        <div className="page-controls">
-          <div className="search-wrapper">
-            <span className="search-icon" aria-hidden="true">
-              🔍
-            </span>
-            <input
-              ref={searchRef}
-              type="search"
-              placeholder="Search"
-              className="search-input"
-              onChange={handleSearchChange}
-            />
-          </div>
-        </div>
-      </header>
+          </Typography>
+        </Box>
+        <TextField
+          inputRef={searchRef}
+          type="search"
+          placeholder="Search products"
+          onChange={handleSearchChange}
+          size="small"
+          sx={{ minWidth: { xs: '100%', sm: 260 } }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Stack>
 
-      {loading && <div className="status-message">Loading products…</div>}
-      {error && !loading && (
-        <div className="status-message error">{error}</div>
+      {loading && (
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          <CircularProgress size={20} />
+          <Typography variant="body2">Loading products...</Typography>
+        </Stack>
       )}
+      {error && !loading && <Alert severity="error">{error}</Alert>}
 
       {!loading && !error && (
         <ProductGrid
@@ -96,7 +117,7 @@ export function ProductDashboard() {
           emptyMessage="No products match your search."
         />
       )}
-    </section>
+    </Box>
   )
 }
 

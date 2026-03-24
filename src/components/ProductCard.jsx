@@ -1,5 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  CardActions,
+  IconButton,
+  Typography,
+  Button,
+  Stack,
+} from '@mui/material'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
 export function ProductCard({ product }) {
   const navigate = useNavigate()
@@ -10,48 +23,39 @@ export function ProductCard({ product }) {
   }
 
   return (
-    <article className="product-card">
-      <div className="product-image-wrapper">
-        <img
-          src={product.thumbnail}
-          alt={product.title}
-          className="product-image"
-          loading="lazy"
-        />
-      </div>
-      <div className="product-body">
-        <h2 className="product-title">{product.title}</h2>
-        <p className="product-price">${product.price.toFixed(2)}</p>
-      </div>
-      <div className="product-footer">
-        <button
-          type="button"
-          className="primary-button"
-          onClick={handleViewDetails}
-        >
+    <Card elevation={2} sx={{ borderRadius: 3 }}>
+      <CardMedia
+        component="img"
+        image={product.thumbnail}
+        alt={product.title}
+        sx={{ height: 160, objectFit: 'cover', bgcolor: '#e2e8f0' }}
+      />
+      <CardContent sx={{ pb: 1 }}>
+        <Typography variant="subtitle1" fontWeight={600} noWrap>
+          {product.title}
+        </Typography>
+        <Typography variant="subtitle2" color="primary.main" fontWeight={700}>
+          ${product.price.toFixed(2)}
+        </Typography>
+      </CardContent>
+      <CardActions sx={{ pt: 0, px: 2, pb: 2, justifyContent: 'space-between' }}>
+        <Button variant="contained" onClick={handleViewDetails}>
           View Details
-        </button>
-        <div className="product-actions">
-          <button
-            type="button"
-            className={`icon-button heart-button${
-              isFavorite ? ' active' : ''
-            }`}
+        </Button>
+        <Stack direction="row" spacing={0.5}>
+          <IconButton
+            color={isFavorite ? 'error' : 'default'}
             aria-pressed={isFavorite}
             onClick={() => setIsFavorite((prev) => !prev)}
           >
-            ♥
-          </button>
-          <button
-            type="button"
-            className="icon-button delete-button"
-            aria-label="Remove product"
-          >
-            🗑
-          </button>
-        </div>
-      </div>
-    </article>
+            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
+          <IconButton color="error" aria-label="Remove product">
+            <DeleteOutlineIcon />
+          </IconButton>
+        </Stack>
+      </CardActions>
+    </Card>
   )
 }
 

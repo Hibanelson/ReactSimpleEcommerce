@@ -1,5 +1,16 @@
 import { useDispatch } from 'react-redux'
 import { changeQuantity, removeFromCart } from '../state/cartSlice.js'
+import {
+  Box,
+  Card,
+  CardMedia,
+  IconButton,
+  Stack,
+  Typography,
+  ButtonGroup,
+  Button,
+} from '@mui/material'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
 export function CartItem({ item }) {
   const dispatch = useDispatch()
@@ -7,50 +18,52 @@ export function CartItem({ item }) {
   const lineTotal = item.price * item.quantity
 
   return (
-    <article className="cart-item">
-      <div className="cart-item-image-wrapper">
-        <img
-          src={item.thumbnail}
-          alt={item.title}
-          className="cart-item-image"
-        />
-      </div>
-      <div className="cart-item-info">
-        <h2 className="cart-item-title">{item.title}</h2>
-        <p className="cart-item-price">Unit Price: ${item.price.toFixed(2)}</p>
-      </div>
-      <div className="cart-item-qty">
-        <button
-          type="button"
-          className="qty-button"
-          onClick={() => dispatch(changeQuantity({ id: item.id, delta: -1 }))}
-        >
-          −
-        </button>
-        <span className="qty-value">{item.quantity}</span>
-        <button
-          type="button"
-          className="qty-button"
-          onClick={() => dispatch(changeQuantity({ id: item.id, delta: 1 }))}
-        >
+    <Card
+      elevation={2}
+      sx={{ p: 1.5, display: 'flex', alignItems: 'center', gap: 2, borderRadius: 3 }}
+    >
+      <CardMedia
+        component="img"
+        image={item.thumbnail}
+        alt={item.title}
+        sx={{ width: 72, height: 72, borderRadius: 2 }}
+      />
+      <Box sx={{ flex: 1 }}>
+        <Typography variant="subtitle1" fontWeight={600}>
+          {item.title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Unit Price: ${item.price.toFixed(2)}
+        </Typography>
+      </Box>
+
+      <ButtonGroup size="small" variant="outlined">
+        <Button onClick={() => dispatch(changeQuantity({ id: item.id, delta: -1 }))}>
+          -
+        </Button>
+        <Button disabled>{item.quantity}</Button>
+        <Button onClick={() => dispatch(changeQuantity({ id: item.id, delta: 1 }))}>
           +
-        </button>
-      </div>
-      <div className="cart-item-total">
-        <span>Total:</span>
-        <strong>${lineTotal.toFixed(2)}</strong>
-      </div>
-      <div className="cart-item-remove">
-        <button
-          type="button"
-          className="icon-button delete-button"
-          aria-label="Remove from cart"
-          onClick={() => dispatch(removeFromCart(item.id))}
-        >
-          🗑
-        </button>
-      </div>
-    </article>
+        </Button>
+      </ButtonGroup>
+
+      <Stack alignItems="flex-end" sx={{ minWidth: 96 }}>
+        <Typography variant="body2" color="text.secondary">
+          Total
+        </Typography>
+        <Typography variant="subtitle1" fontWeight={700}>
+          ${lineTotal.toFixed(2)}
+        </Typography>
+      </Stack>
+
+      <IconButton
+        color="error"
+        aria-label="Remove from cart"
+        onClick={() => dispatch(removeFromCart(item.id))}
+      >
+        <DeleteOutlineIcon />
+      </IconButton>
+    </Card>
   )
 }
 

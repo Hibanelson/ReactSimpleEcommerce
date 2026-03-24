@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
 import { Layout } from './components/Layout.jsx'
 import { ProductDashboard } from './pages/ProductDashboard.jsx'
 import { CartPage } from './pages/CartPage.jsx'
@@ -7,7 +6,7 @@ import { ProductDetail } from './pages/ProductDetail.jsx'
 
 function App() {
   return (
-    <div className="app-shell">
+    <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<ProductDashboard />} />
@@ -19,7 +18,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
-    </div>
+    </>
   )
 }
 

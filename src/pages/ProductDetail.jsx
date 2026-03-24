@@ -3,6 +3,20 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../state/cartSlice.js'
+import {
+  Alert,
+  Box,
+  Button,
+  ButtonGroup,
+  Card,
+  CardMedia,
+  Chip,
+  CircularProgress,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const PRODUCT_URL = 'https://dummyjson.com/products'
 
@@ -58,82 +72,78 @@ export function ProductDetail() {
   }
 
   if (loading) {
-    return <div className="status-message">Loading product…</div>
+    return (
+      <Stack direction="row" spacing={1.5} alignItems="center">
+        <CircularProgress size={20} />
+        <Typography variant="body2">Loading product...</Typography>
+      </Stack>
+    )
   }
 
   if (error) {
-    return <div className="status-message error">{error}</div>
+    return <Alert severity="error">{error}</Alert>
   }
 
   if (!product) {
-    return <div className="status-message error">Product not found.</div>
+    return <Alert severity="error">Product not found.</Alert>
   }
 
   return (
-    <section className="product-detail">
-      <button
-        type="button"
-        className="secondary-link"
-        onClick={() => navigate(-1)}
-      >
-        ← Back to products
-      </button>
+    <Box>
+      <Button startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)} sx={{ mb: 2 }}>
+        Back to products
+      </Button>
 
-      <div className="product-detail-layout">
-        <div className="product-detail-image-card">
-          <img
-            src={product.thumbnail}
-            alt={product.title}
-            className="product-detail-image"
-          />
-        </div>
+      <Grid container spacing={2.5}>
+        <Grid size={{ xs: 12, md: 5 }}>
+          <Card elevation={3} sx={{ p: 2, borderRadius: 3 }}>
+            <CardMedia
+              component="img"
+              image={product.thumbnail}
+              alt={product.title}
+              sx={{ height: 320, objectFit: 'contain' }}
+            />
+          </Card>
+        </Grid>
 
-        <div className="product-detail-info">
-          <h1>{product.title}</h1>
-          <p className="product-detail-category">{product.category}</p>
-          <p className="product-detail-price">${product.price.toFixed(2)}</p>
-          <p className="product-detail-description">{product.description}</p>
+        <Grid size={{ xs: 12, md: 7 }}>
+          <Typography variant="h4" fontWeight={700} gutterBottom>
+            {product.title}
+          </Typography>
+          <Typography variant="overline" color="text.secondary">
+            {product.category}
+          </Typography>
+          <Typography variant="h5" color="primary.main" fontWeight={700} sx={{ mt: 1 }}>
+            ${product.price.toFixed(2)}
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mt: 1.5 }}>
+            {product.description}
+          </Typography>
 
-          <div className="product-detail-meta">
-            <span>Brand: {product.brand}</span>
-            <span>Rating: {product.rating}⭐</span>
-            <span>Stock: {product.stock}</span>
-          </div>
+          <Stack direction="row" spacing={1} sx={{ mt: 2, mb: 2.5 }} useFlexGap flexWrap="wrap">
+            <Chip label={`Brand: ${product.brand ?? 'N/A'}`} />
+            <Chip label={`Rating: ${product.rating} stars`} />
+            <Chip label={`Stock: ${product.stock}`} />
+          </Stack>
 
-          <div className="product-detail-actions">
-            <div className="cart-item-qty">
-              <button
-                type="button"
-                className="qty-button"
-                onClick={() =>
-                  setQuantity((q) => Math.max(1, Math.min(10, q - 1)))
-                }
-              >
-                −
-              </button>
-              <span className="qty-value">{quantity}</span>
-              <button
-                type="button"
-                className="qty-button"
-                onClick={() =>
-                  setQuantity((q) => Math.max(1, Math.min(10, q + 1)))
-                }
-              >
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <ButtonGroup size="small" variant="outlined">
+              <Button onClick={() => setQuantity((q) => Math.max(1, Math.min(10, q - 1)))}>
+                -
+              </Button>
+              <Button disabled>{quantity}</Button>
+              <Button onClick={() => setQuantity((q) => Math.max(1, Math.min(10, q + 1)))}>
                 +
-              </button>
-            </div>
+              </Button>
+            </ButtonGroup>
 
-            <button
-              type="button"
-              className="primary-button"
-              onClick={handleAddToCart}
-            >
+            <Button variant="contained" onClick={handleAddToCart}>
               Add to Cart
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
+            </Button>
+          </Stack>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 
