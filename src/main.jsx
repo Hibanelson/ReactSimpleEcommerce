@@ -11,7 +11,7 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#0f766e',
+      main: '#2563eb',
     },
     secondary: {
       main: '#64748b',
@@ -29,7 +29,9 @@ const theme = createTheme({
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
+      {/* ThemeProvider: Applies custom Material-UI theme to all child components */}
       <ThemeProvider theme={theme}>
+        {/* CssBaseline: Normalizes default browser styles for consistent styling */}
         <CssBaseline />
         <BrowserRouter>
           <App />

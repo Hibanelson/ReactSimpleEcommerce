@@ -3,6 +3,7 @@ import { Layout } from './components/Layout.jsx'
 import { ProductDashboard } from './pages/ProductDashboard.jsx'
 import { CartPage } from './pages/CartPage.jsx'
 import { ProductDetail } from './pages/ProductDetail.jsx'
+import { LoginPage } from './pages/LoginPage.jsx'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<ProductDashboard />} />
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="cart" element={<CartPage />} />
+          <Route path="login" element={<LoginPage />} />
           {/* Optional: keep URLs clean if user types /home */}
           <Route path="home" element={<Navigate to="/" replace />} />
           {/* Catch-all back to dashboard */}

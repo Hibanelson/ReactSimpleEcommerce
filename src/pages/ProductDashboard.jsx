@@ -71,21 +71,27 @@ export function ProductDashboard() {
   }
 
   return (
+    // Box: Main container for the product dashboard
     <Box>
+      {/* Stack: Horizontal layout for title and search bar */}
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
         justifyContent="space-between"
         spacing={2}
         sx={{ mb: 3 }}
       >
+        {/* Box: Container for dashboard title and description */}
         <Box>
+          {/* Typography: Displays "Product Dashboard" heading */}
           <Typography variant="h5" fontWeight={700}>
             Product Dashboard
           </Typography>
+          {/* Typography: Displays dashboard description */}
           <Typography variant="body2" color="text.secondary">
             Browse products and add them to your cart.
           </Typography>
         </Box>
+        {/* TextField: Search input for filtering products */}
         <TextField
           inputRef={searchRef}
           type="search"
@@ -105,11 +111,15 @@ export function ProductDashboard() {
 
       {loading && (
         <Stack direction="row" spacing={1.5} alignItems="center">
+          {/* CircularProgress: Loading spinner component */}
           <CircularProgress size={20} />
+          {/* Typography: Displays loading text */}
           <Typography variant="body2">Loading products...</Typography>
         </Stack>
       )}
-      {error && !loading && <Alert severity="error">{error}</Alert>}
+      {error && !loading && (
+        <Alert severity="error">{error}</Alert>
+      )}
 
       {!loading && !error && (
         <ProductGrid
